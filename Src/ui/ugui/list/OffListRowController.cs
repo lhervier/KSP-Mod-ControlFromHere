@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using com.github.lhervier.ksp.controlfromheremod.ui.styles;
 using com.github.lhervier.ksp.shared.ugui;
 using com.github.lhervier.ksp.shared.ugui.button;
+using com.github.lhervier.ksp.shared.ugui.selectionring;
 
 namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui.list
 {
@@ -47,6 +48,13 @@ namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui.list
         public OffListRowController WithAccentBar(Image accentBar)
         {
             _accentBar = accentBar;
+            return this;
+        }
+
+        private SelectionRingController _selectionRing;
+        public OffListRowController WithSelectionRing(SelectionRingController selectionRing)
+        {
+            _selectionRing = selectionRing;
             return this;
         }
 
@@ -121,6 +129,13 @@ namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui.list
             if (_accentBar != null)
             {
                 _accentBar.enabled = true;
+            }
+
+            // Selection ring: the row's own amber code already owns the background and the accent bar, so
+            // the deepened tint alone is a faint cue. The ring gives the selection a channel of its own.
+            if (_selectionRing != null)
+            {
+                _selectionRing.SetVisible(selected);
             }
         }
     }

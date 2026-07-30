@@ -6,6 +6,7 @@ using com.github.lhervier.ksp.shared;
 using com.github.lhervier.ksp.shared.ugui;
 using com.github.lhervier.ksp.shared.ugui.badge;
 using com.github.lhervier.ksp.shared.ugui.button;
+using com.github.lhervier.ksp.shared.ugui.selectionring;
 using com.github.lhervier.ksp.shared.ugui.sprites;
 using com.github.lhervier.ksp.shared.ugui.styles;
 
@@ -84,6 +85,12 @@ namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui.list
             BuildInfoColumn(rowGo.transform);
             BuildActions(rowGo.transform, out ButtonController pawButton);
 
+            // Selection ring, built after the content: uGUI draws children in order, so the last sibling
+            // is the one drawn above the row.
+            SelectionRingController selectionRing = new SelectionRingBuilder()
+                .WithParent(rowGo.transform)
+                .Build();
+
             // Click on the row, only when there is a part to make current (nothing to point at on an
             // uncontrolled vessel). PointerHandler, not EventTrigger, so the mouse wheel keeps scrolling.
             PointerHandler pointer = null;
@@ -97,6 +104,7 @@ namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui.list
                 .WithInfo(_info)
                 .WithBackground(bg)
                 .WithAccentBar(accentBar)
+                .WithSelectionRing(selectionRing)
                 .WithPointerHandler(pointer)
                 .WithPawButton(pawButton);
         }

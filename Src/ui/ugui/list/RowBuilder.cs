@@ -6,6 +6,7 @@ using com.github.lhervier.ksp.shared;
 using com.github.lhervier.ksp.shared.ugui;
 using com.github.lhervier.ksp.shared.ugui.badge;
 using com.github.lhervier.ksp.shared.ugui.button;
+using com.github.lhervier.ksp.shared.ugui.selectionring;
 using com.github.lhervier.ksp.shared.ugui.sprites;
 using com.github.lhervier.ksp.shared.ugui.styles;
 
@@ -14,8 +15,8 @@ namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui.list
     /// <summary>
     /// One command-module row: vessel-type icon, vessel name (+ priority tag + "Piloting" badge) over the
     /// localized part title, and the two action buttons (⚙ show PAW, ⌖ control from here). The control
-    /// button is disabled on the module already in control. The background tint and the left accent bar are
-    /// left to the <see cref="RowController"/>, which drives them from the row state.
+    /// button is disabled on the module already in control. The background tint, the left accent bar and the
+    /// selection ring are left to the <see cref="RowController"/>, which drives them from the row state.
     /// </summary>
     public class RowBuilder : IUGUIBuilder<RowController>
     {
@@ -84,6 +85,12 @@ namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui.list
             BuildInfoColumn(rowGo.transform);
             BuildActions(rowGo.transform, out ButtonController pawButton, out ButtonController controlButton);
 
+            // Selection ring, built after the content: uGUI draws children in order, so the last sibling
+            // is the one drawn above the row.
+            SelectionRingController selectionRing = new SelectionRingBuilder()
+                .WithParent(rowGo.transform)
+                .Build();
+
             // Hover and click on the row (PointerHandler, not EventTrigger, so the mouse wheel keeps
             // scrolling the list). The controller owns what they do.
             var pointer = rowGo.AddComponent<PointerHandler>();
@@ -92,6 +99,7 @@ namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui.list
                 .WithInfo(_info)
                 .WithBackground(bg)
                 .WithAccentBar(accentBar)
+                .WithSelectionRing(selectionRing)
                 .WithPointerHandler(pointer)
                 .WithPawButton(pawButton)
                 .WithControlButton(controlButton)

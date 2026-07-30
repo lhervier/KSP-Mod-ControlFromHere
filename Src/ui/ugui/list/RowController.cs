@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using com.github.lhervier.ksp.controlfromheremod.ui.styles;
 using com.github.lhervier.ksp.shared.ugui;
 using com.github.lhervier.ksp.shared.ugui.button;
+using com.github.lhervier.ksp.shared.ugui.selectionring;
 using com.github.lhervier.ksp.shared.ugui.styles;
 
 namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui.list
@@ -10,8 +11,8 @@ namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui.list
     /// <summary>
     /// Controller of a command-module row. The row content is static (rebuilt by the
     /// <see cref="ListController"/> whenever the vessel or its control point changes), but its rendering —
-    /// background tint and left accent bar — depends on the row state (in control, current row, hovered)
-    /// and is re-evaluated by <see cref="Refresh"/>.
+    /// background tint, left accent bar and selection ring — depends on the row state (in control, current
+    /// row, hovered) and is re-evaluated by <see cref="Refresh"/>.
     ///
     /// Clicking anywhere on the row makes it the current one; the two action buttons are relayed to the
     /// <see cref="ControlFromHereViewModel"/>, which marks the row as part of the action.
@@ -49,6 +50,13 @@ namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui.list
         public RowController WithAccentBar(Image accentBar)
         {
             _accentBar = accentBar;
+            return this;
+        }
+
+        private SelectionRingController _selectionRing;
+        public RowController WithSelectionRing(SelectionRingController selectionRing)
+        {
+            _selectionRing = selectionRing;
             return this;
         }
 
@@ -184,6 +192,14 @@ namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui.list
             {
                 _accentBar.enabled = active || selected;
                 _accentBar.color = active ? DefaultPalette.AccentColor : DefaultPalette.AccentBorderColor;
+            }
+
+            // Selection ring: a visual channel of its own, laid over the state instead of replacing it.
+            // Without it, making the controlling module the current row would change nothing on screen —
+            // background and accent bar are already at their "in control" values, which win above.
+            if (_selectionRing != null)
+            {
+                _selectionRing.SetVisible(selected);
             }
         }
     }
