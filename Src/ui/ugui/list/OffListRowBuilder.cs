@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using com.github.lhervier.ksp.controlfromheremod.ui.styles;
@@ -35,6 +35,13 @@ namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui.list
             return this;
         }
 
+        private ControlFromHereViewModel _viewModel;
+        public OffListRowBuilder WithViewModel(ControlFromHereViewModel viewModel)
+        {
+            this._viewModel = viewModel;
+            return this;
+        }
+
         // ===========================================
         // Build
         // ===========================================
@@ -66,7 +73,8 @@ namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui.list
             // row is always followed by the modules (or the empty state), so it is never the last row.
             RowElements.BuildRowSeparator(rowGo.transform, Palette.OffListSeparatorColor);
 
-            RowElements.BuildAccentBar(rowGo.transform, Palette.OffListAccentColor);
+            // Built hidden, shown by the controller: the off-list part always flies the vessel.
+            Image accentBar = RowElements.BuildAccentBar(rowGo.transform, Palette.OffListAccentColor);
 
             // Stock vessel-type sprite of the control point (a docking port shows its own icon); the
             // info carries VesselType.Unknown when uncontrolled, giving a neutral icon. Box stays empty
@@ -74,9 +82,23 @@ namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui.list
             RowElements.BuildIconBox(rowGo.transform, VesselTypeIcons.Get(_info.VesselType));
 
             BuildInfoColumn(rowGo.transform);
-            BuildActions(rowGo.transform);
+            BuildActions(rowGo.transform, out ButtonController pawButton);
 
-            return rowGo.AddComponent<OffListRowController>();
+            // Click on the row, only when there is a part to make current (nothing to point at on an
+            // uncontrolled vessel). PointerHandler, not EventTrigger, so the mouse wheel keeps scrolling.
+            PointerHandler pointer = null;
+            if (_info.Part != null)
+            {
+                pointer = rowGo.AddComponent<PointerHandler>();
+            }
+
+            return rowGo.AddComponent<OffListRowController>()
+                .WithViewModel(_viewModel)
+                .WithInfo(_info)
+                .WithBackground(bg)
+                .WithAccentBar(accentBar)
+                .WithPointerHandler(pointer)
+                .WithPawButton(pawButton);
         }
 
         // ===========================================
@@ -157,7 +179,9 @@ namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui.list
             RowElements.BuildPilotingBadge(parent);
         }
 
-        private void BuildActions(Transform parent)
+        // Builds the ⚙ button and hands it back: the controller wires its click, so that showing the PAW
+        // also makes the row the current one.
+        private void BuildActions(Transform parent, out ButtonController pawButton)
         {
             var groupGo = new GameObject("Actions", typeof(RectTransform));
             groupGo.transform.SetParent(parent, false);
@@ -183,14 +207,10 @@ namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui.list
                 .WithHoverColor(Palette.RowButtonHoverColor)
                 .Build();
             paw.transform.SetParent(groupGo.transform, false);
-            if (hasPaw)
-            {
-                Part part = _info.Part;
-                paw.OnClick.Add(() => CommandModulesService.ShowPaw(part));
-            }
             Tooltips.Attach(
                 paw.gameObject,
                 ModLocalization.GetString(hasPaw ? "tooltipPaw" : "tooltipNoPaw"));
+            pawButton = paw;
         }
 
         private static void BuildFlexibleSpacer(Transform parent)

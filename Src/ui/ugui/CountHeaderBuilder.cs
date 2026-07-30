@@ -14,6 +14,21 @@ namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui
     /// </summary>
     public class CountHeaderBuilder : IUGUIBuilder<CountHeaderController>
     {
+        // ===========================================
+        // Builder parameters
+        // ===========================================
+
+        private ControlFromHereViewModel _viewModel;
+        public CountHeaderBuilder WithViewModel(ControlFromHereViewModel viewModel)
+        {
+            this._viewModel = viewModel;
+            return this;
+        }
+
+        // ===========================================
+        // Build
+        // ===========================================
+
         public CountHeaderController Build()
         {
             var go = new GameObject("ControlFromHere.CountHeader", typeof(RectTransform));
@@ -61,7 +76,9 @@ namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui
             sepImg.color = Palette.CountSeparatorColor;
             sepImg.raycastTarget = false;
 
-            return go.AddComponent<CountHeaderController>().WithLabel(label);
+            return go.AddComponent<CountHeaderController>()
+                .WithLabel(label)
+                .WithViewModel(_viewModel);
         }
     }
 }

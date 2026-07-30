@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using com.github.lhervier.ksp.shared.ugui;
 
@@ -10,6 +10,21 @@ namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui.list
     /// </summary>
     public class ListBuilder : IUGUIBuilder<ListController>
     {
+        // ===========================================
+        // Builder parameters
+        // ===========================================
+
+        private ControlFromHereViewModel _viewModel;
+        public ListBuilder WithViewModel(ControlFromHereViewModel viewModel)
+        {
+            this._viewModel = viewModel;
+            return this;
+        }
+
+        // ===========================================
+        // Build
+        // ===========================================
+
         public ListController Build()
         {
             var go = new GameObject("ControlFromHere.List", typeof(RectTransform));
@@ -23,7 +38,7 @@ namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui.list
             layout.childForceExpandWidth = true;
             layout.childForceExpandHeight = false;
 
-            return go.AddComponent<ListController>();
+            return go.AddComponent<ListController>().WithViewModel(_viewModel);
         }
     }
 }

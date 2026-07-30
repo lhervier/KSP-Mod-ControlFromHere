@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using com.github.lhervier.ksp.controlfromheremod.breaker;
 using com.github.lhervier.ksp.controlfromheremod.ui.styles;
 using com.github.lhervier.ksp.shared;
 using com.github.lhervier.ksp.shared.ugui;
@@ -10,87 +8,87 @@ using com.github.lhervier.ksp.shared.ugui;
 namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui.list
 {
     /// <summary>
-    /// Builds and refreshes the command-module rows from the active vessel. Rebuilds on vessel change,
-    /// vessel modification (docking/undocking, part add/remove), control-point switch, and circuit-breaker
-    /// state change (so aligned modules bubble up while tripped). Skips rebuilds while the window is hidden
-    /// and catches up on re-open (OnEnable).
+    /// Builds the command-module rows from the state held by the <see cref="ControlFromHereViewModel"/>: it
+    /// reads nothing from the game itself, and rebuilds when the view model says its state changed. Skips
+    /// rebuilds while the window is hidden and catches up on re-open (OnEnable).
+    ///
+    /// A change of current row does not rebuild anything: the rows are only asked to re-render.
     /// </summary>
     public class ListController : MonoBehaviour
     {
         private static readonly ModLogger LOGGER = new ModLogger("List");
 
-        // Guards against stacking rebuild coroutines when several events fire in the same frame.
-        private bool _rebuildQueued;
+        // The rows currently mounted, to re-render them without rebuilding. At most one off-list row, by
+        // construction (it stands for the single control point of the vessel).
+        private readonly List<RowController> _rows = new List<RowController>();
+        private OffListRowController _offListRow;
 
-        // Whether we are subscribed to the breaker (its instance may not exist yet at our Start).
-        private bool _breakerSubscribed;
+        private ControlFromHereViewModel _viewModel;
+        public ListController WithViewModel(ControlFromHereViewModel viewModel)
+        {
+            this._viewModel = viewModel;
+            return this;
+        }
 
         public void Start()
         {
-            GameEvents.onVesselChange.Add(OnVesselChange);
-            GameEvents.onVesselWasModified.Add(OnVesselWasModified);
-            GameEvents.onVesselReferenceTransformSwitch.Add(OnReferenceTransformSwitch);
-            SubscribeBreaker();
+            if (_viewModel != null)
+            {
+                _viewModel.OnAvailableModulesChanged.Add(OnAvailableModulesChanged);
+                _viewModel.OnSelectedPartChanged.Add(RefreshAll);
+            }
             Rebuild();
         }
 
         public void OnDestroy()
         {
-            GameEvents.onVesselChange.Remove(OnVesselChange);
-            GameEvents.onVesselWasModified.Remove(OnVesselWasModified);
-            GameEvents.onVesselReferenceTransformSwitch.Remove(OnReferenceTransformSwitch);
-            if (_breakerSubscribed && ThrustBreaker.Instance != null)
+            if (_viewModel != null)
             {
-                ThrustBreaker.Instance.OnStateChanged.Remove(OnBreakerStateChanged);
+                _viewModel.OnAvailableModulesChanged.Remove(OnAvailableModulesChanged);
+                _viewModel.OnSelectedPartChanged.Remove(RefreshAll);
             }
-            _breakerSubscribed = false;
         }
 
         // Catch up on the state that may have changed while the window was hidden.
         public void OnEnable()
         {
-            SubscribeBreaker();
             Rebuild();
         }
-
-        private void SubscribeBreaker()
-        {
-            if (_breakerSubscribed || ThrustBreaker.Instance == null)
-            {
-                return;
-            }
-            ThrustBreaker.Instance.OnStateChanged.Add(OnBreakerStateChanged);
-            _breakerSubscribed = true;
-        }
-
-        private void OnBreakerStateChanged() => QueueRebuild();
 
         // ============================================
         // Methods bound to events
         // ============================================
+        // Both instance methods (never make them static): EventVoid.Add throws on a handler with a null
+        // Target.
 
-        private void OnVesselChange(Vessel vessel) => QueueRebuild();
-        private void OnVesselWasModified(Vessel vessel) => QueueRebuild();
-        private void OnReferenceTransformSwitch(Transform from, Transform to) => QueueRebuild();
-
-        // Rebuild on the next frame rather than synchronously: onVesselReferenceTransformSwitch is
-        // fired by Vessel.SetReferenceTransform *before* it updates referenceTransformPart, so an
-        // immediate rebuild would read the old control point (and miss the switch to a docking port).
-        // A hidden window skips this and catches up through OnEnable on re-open.
-        private void QueueRebuild()
+        private void OnAvailableModulesChanged()
         {
-            if (_rebuildQueued || !isActiveAndEnabled)
+            // Rebuilding a hidden window would be wasted: OnEnable catches up on re-open.
+            if (!isActiveAndEnabled)
             {
                 return;
             }
-            _rebuildQueued = true;
-            StartCoroutine(RebuildNextFrame());
+            Rebuild();
         }
 
-        private IEnumerator RebuildNextFrame()
+        private void RefreshAll()
         {
-            yield return null;
-            Rebuild();   // clears _rebuildQueued
+            // No point re-rendering a hidden window: OnEnable rebuilds it on re-open.
+            if (!isActiveAndEnabled)
+            {
+                return;
+            }
+            if (_offListRow != null)
+            {
+                _offListRow.Refresh();
+            }
+            foreach (RowController row in _rows)
+            {
+                if (row != null)
+                {
+                    row.Refresh();
+                }
+            }
         }
 
         // =======================================
@@ -99,7 +97,17 @@ namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui.list
 
         private void Rebuild()
         {
-            _rebuildQueued = false;
+            // OnEnable runs synchronously from AddComponent, i.e. before the builder could inject the view
+            // model: there is nothing to read yet. Start rebuilds right after, so this pass is skipped.
+            if (_viewModel == null)
+            {
+                return;
+            }
+
+            // Forget the previous rows before destroying them, so a refresh triggered in between never
+            // reaches a controller whose GameObject is on its way out.
+            _rows.Clear();
+            _offListRow = null;
 
             // Clear existing children.
             for (int i = transform.childCount - 1; i >= 0; i--)
@@ -107,31 +115,29 @@ namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui.list
                 Destroy(transform.GetChild(i).gameObject);
             }
 
-            Vessel vessel = FlightGlobals.ActiveVessel;
-            if (vessel == null)
+            if (!_viewModel.HasActiveVessel)
             {
                 BuildEmptyState(ModLocalization.GetString("labelNoVessel"));
                 return;
             }
 
-            // Pinned row for the control point when it is not one of the listed command modules — the
-            // very situation that makes the toolbar icon blink (docking port, seat... or nothing at all).
-            OffListControlInfo offList = CommandModulesService.GetOffListControlPoint(vessel);
+            OffListControlInfo offList = _viewModel.OffListControl;
+            IReadOnlyList<CommandModuleInfo> modules = _viewModel.AvailableModules;
+
+            // Pinned at the top of the list, so it is added first.
             if (offList != null)
             {
-                OffListRowController offRow = new OffListRowBuilder().WithInfo(offList).Build();
-                offRow.transform.SetParent(transform, false);
+                _offListRow = new OffListRowBuilder()
+                    .WithViewModel(_viewModel)
+                    .WithInfo(offList)
+                    .Build();
+                _offListRow.transform.SetParent(transform, false);
             }
 
-            // While the breaker is tripped, rank modules by alignment with the frozen thrust direction.
-            ThrustBreaker breaker = ThrustBreaker.Instance;
-            Vector3? frozenThrust = breaker != null ? breaker.TripThrustDirection : null;
-            float tolerance = breaker != null ? breaker.Threshold : 0f;
-
-            List<CommandModuleInfo> modules = CommandModulesService.GetCommandModules(vessel, frozenThrust, tolerance);
             if (modules.Count == 0)
             {
                 BuildEmptyState(ModLocalization.GetString("labelNoCommandModules"));
+                RefreshAll();   // the off-list row, if any, still has to be painted
                 return;
             }
 
@@ -144,13 +150,22 @@ namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui.list
             RowController lastRow = null;
             foreach (CommandModuleInfo info in modules)
             {
-                lastRow = new RowBuilder().WithInfo(info).Build();
+                lastRow = new RowBuilder()
+                    .WithViewModel(_viewModel)
+                    .WithInfo(info)
+                    .Build();
                 lastRow.transform.SetParent(transform, false);
+                _rows.Add(lastRow);
             }
             // No trailing separator under the last row of the list (mirrors the mockup's :last-child rule).
             lastRow.HideSeparator();
-            LOGGER.LogDebug("Rebuilt list: " + modules.Count + " command module(s) for " + vessel.vesselName
-                + (offList != null ? " (off-list control: " + offList.Status + ")" : ""));
+
+            // The rows render themselves on Start, which Unity only runs later in the frame: paint them now
+            // so a rebuild never shows a frame of unstyled rows.
+            RefreshAll();
+
+            LOGGER.LogDebug("Rebuilt list: " + modules.Count + " row(s)"
+                + (offList != null ? " + off-list control (" + offList.Status + ")" : ""));
         }
 
         // A thin caption row introducing the switchable modules under the pinned off-list row.

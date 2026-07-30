@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using com.github.lhervier.ksp.controlfromheremod.ui.styles;
@@ -14,7 +14,8 @@ namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui.list
     /// <summary>
     /// One command-module row: vessel-type icon, vessel name (+ priority tag + "Piloting" badge) over the
     /// localized part title, and the two action buttons (⚙ show PAW, ⌖ control from here). The control
-    /// button is disabled on the module already in control. The controlling module's row is tinted.
+    /// button is disabled on the module already in control. The background tint and the left accent bar are
+    /// left to the <see cref="RowController"/>, which drives them from the row state.
     /// </summary>
     public class RowBuilder : IUGUIBuilder<RowController>
     {
@@ -35,6 +36,13 @@ namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui.list
             return this;
         }
 
+        private ControlFromHereViewModel _viewModel;
+        public RowBuilder WithViewModel(ControlFromHereViewModel viewModel)
+        {
+            this._viewModel = viewModel;
+            return this;
+        }
+
         // ===========================================
         // Build
         // ===========================================
@@ -43,11 +51,12 @@ namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui.list
         {
             var rowGo = new GameObject("Row", typeof(RectTransform));
 
-            // Background (tinted on the controlling module).
+            // Background: left transparent here, tinted by the controller's Refresh (in control / current
+            // row / hovered). raycastTarget so the empty areas of the row take the hover and the click.
             var bg = rowGo.AddComponent<Image>();
             bg.sprite = SpritesGlobal.FillSprite;
             bg.type = Image.Type.Simple;
-            bg.color = _info.IsActive ? Palette.RowActiveBgColor : Color.clear;
+            bg.color = Color.clear;
             bg.raycastTarget = true;
 
             var layout = rowGo.AddComponent<HorizontalLayoutGroup>();
@@ -66,23 +75,26 @@ namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui.list
             // Discreet bottom separator line (hidden on the last row by the ListController).
             GameObject separator = RowElements.BuildRowSeparator(rowGo.transform, Palette.RowSeparatorColor);
 
-            // Left accent bar on the controlling module (overlaid, out of layout).
-            if (_info.IsActive)
-            {
-                RowElements.BuildAccentBar(rowGo.transform, DefaultPalette.AccentColor);
-            }
+            // Left accent bar (overlaid, out of layout). Always built, shown by the controller on the
+            // controlling module and on the current row.
+            Image accentBar = RowElements.BuildAccentBar(rowGo.transform, DefaultPalette.AccentColor);
 
             // Stock vessel-type sprite from the shared module; the box stays empty when unavailable.
             RowElements.BuildIconBox(rowGo.transform, VesselTypeIcons.Get(_info.VesselType));
             BuildInfoColumn(rowGo.transform);
-            BuildActions(rowGo.transform);
+            BuildActions(rowGo.transform, out ButtonController pawButton, out ButtonController controlButton);
 
-            // Hover feedback (PointerHandler, not EventTrigger, so the mouse wheel keeps scrolling the
-            // list). The controlling module keeps its green tint on hover; a plain row gets the wash.
+            // Hover and click on the row (PointerHandler, not EventTrigger, so the mouse wheel keeps
+            // scrolling the list). The controller owns what they do.
             var pointer = rowGo.AddComponent<PointerHandler>();
-            Color hoverColor = _info.IsActive ? Palette.RowActiveBgColor : Palette.RowHoverColor;
             return rowGo.AddComponent<RowController>()
-                .WithHover(bg, bg.color, hoverColor, pointer)
+                .WithViewModel(_viewModel)
+                .WithInfo(_info)
+                .WithBackground(bg)
+                .WithAccentBar(accentBar)
+                .WithPointerHandler(pointer)
+                .WithPawButton(pawButton)
+                .WithControlButton(controlButton)
                 .WithSeparator(separator);
         }
 
@@ -204,7 +216,9 @@ namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui.list
             RowElements.BuildPilotingBadge(parent);
         }
 
-        private void BuildActions(Transform parent)
+        // Builds the two action buttons and hands them back: the controller wires their clicks, so that
+        // acting on a row also makes it the current one.
+        private void BuildActions(Transform parent, out ButtonController pawButton, out ButtonController controlButton)
         {
             var groupGo = new GameObject("Actions", typeof(RectTransform));
             groupGo.transform.SetParent(parent, false);
@@ -227,9 +241,8 @@ namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui.list
                 .WithHoverColor(Palette.RowButtonHoverColor)
                 .Build();
             paw.transform.SetParent(groupGo.transform, false);
-            var info = _info;
-            paw.OnClick.Add(() => CommandModulesService.ShowPaw(info));
             Tooltips.Attach(paw.gameObject, ModLocalization.GetString("tooltipPaw"));
+            pawButton = paw;
 
             // "Control from here" button (accent), disabled on the controlling module.
             ButtonController control = new ButtonBuilder()
@@ -243,10 +256,10 @@ namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui.list
                 .WithTextColor(DefaultPalette.AccentColor)
                 .Build();
             control.transform.SetParent(groupGo.transform, false);
-            control.OnClick.Add(() => CommandModulesService.ControlFromHere(info));
             Tooltips.Attach(
                 control.gameObject,
                 ModLocalization.GetString(_info.IsActive ? "tooltipAlreadyControlling" : "tooltipControl"));
+            controlButton = control;
         }
 
         private static void BuildFlexibleSpacer(Transform parent)

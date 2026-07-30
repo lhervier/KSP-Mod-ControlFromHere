@@ -81,8 +81,9 @@ namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui.list
         }
 
         /// <summary>Left accent bar overlaid on the row (out of layout), used to mark the controlling
-        /// module (accent color) and the off-list control point (off-list color).</summary>
-        public static void BuildAccentBar(Transform parent, Color color)
+        /// module (accent color) and the off-list control point (off-list color). Built hidden and
+        /// returned: the row controller shows and tints it from the row's state.</summary>
+        public static Image BuildAccentBar(Transform parent, Color color)
         {
             var go = new GameObject("AccentBar", typeof(RectTransform));
             go.transform.SetParent(parent, false);
@@ -99,6 +100,8 @@ namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui.list
             img.type = Image.Type.Simple;
             img.color = color;
             img.raycastTarget = false;
+            img.enabled = false;
+            return img;
         }
 
         /// <summary>The "Piloting" accent badge, shared by the command-module row and the off-list row.</summary>

@@ -40,6 +40,9 @@ namespace com.github.lhervier.ksp.controlfromheremod.ui.styles
         // Faint white wash on hover for a plain (non-controlling) module row. The controlling module
         // keeps its green tint on hover; the off-list row keeps its amber tint — as in the mockup.
         public static readonly Color RowHoverColor = Rgba(255, 255, 255, 0.03f);
+        // Current row (the one last clicked / acted on). Neutral, and stronger than the hover wash so the
+        // two read differently; the green tint stays reserved for the module actually in control.
+        public static readonly Color RowSelectedBgColor = Rgba(255, 255, 255, 0.07f);
         public const float RowAccentBarThickness = 2f;
         // Discreet line separating each row, barely lighter than the window background (#1c1c1c).
         public const float RowSeparatorThickness = 1f;
@@ -93,6 +96,9 @@ namespace com.github.lhervier.ksp.controlfromheremod.ui.styles
         // Amber, orthogonal to the green "piloting" accent: green = in control, amber = off the list.
         public static readonly Color OffListAccentColor = Rgb(208, 162, 74);   // #d0a24a
         public static readonly Color OffListRowBgColor = Rgba(200, 150, 60, 0.05f);
+        // Same amber, deepened, when the off-list row is the current one: it keeps its own color code
+        // rather than borrowing the neutral wash of the module rows.
+        public static readonly Color OffListRowSelectedBgColor = Rgba(200, 150, 60, 0.12f);
         public static readonly Color OffListTagBgColor = Rgba(200, 150, 60, 0.10f);
         public static readonly Color OffListTagBorderColor = Rgb(110, 90, 32); // #6e5a20
         public static readonly Color OffListMutedColor = Rgb(138, 138, 138);   // #8a8a8a (uncontrolled name)

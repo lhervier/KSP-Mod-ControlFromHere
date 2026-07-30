@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using com.github.lhervier.ksp.controlfromheremod.ui.styles;
 using com.github.lhervier.ksp.controlfromheremod.ui.ugui.breaker;
@@ -16,6 +16,21 @@ namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui
     /// </summary>
     public class ContentBuilder : IUGUIBuilder<ContentController>
     {
+        // ===========================================
+        // Builder parameters
+        // ===========================================
+
+        private ControlFromHereViewModel _viewModel;
+        public ContentBuilder WithViewModel(ControlFromHereViewModel viewModel)
+        {
+            this._viewModel = viewModel;
+            return this;
+        }
+
+        // ===========================================
+        // Build
+        // ===========================================
+
         public ContentController Build()
         {
             var go = new GameObject("ControlFromHere.Content", typeof(RectTransform));
@@ -34,13 +49,13 @@ namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui
             banner.transform.SetParent(go.transform, false);
 
             // Count sub-header: natural height, below the banner.
-            CountHeaderController count = new CountHeaderBuilder().Build();
+            CountHeaderController count = new CountHeaderBuilder().WithViewModel(_viewModel).Build();
             count.transform.SetParent(go.transform, false);
 
             // List: takes all the leftover height and scrolls within it.
             ScrollableViewController scroll = new ScrollableViewBuilder<ListController>()
                 .WithObjectName("ControlFromHere.Body")
-                .WithContentBuilder(new ListBuilder())
+                .WithContentBuilder(new ListBuilder().WithViewModel(_viewModel))
                 .WithScrollbarWidth(Palette.ScrollbarWidth)
                 .WithScrollbarBackgroundColor(Palette.ScrollbarBgColor)
                 .WithHandleColor(Palette.ScrollbarHandleColor)

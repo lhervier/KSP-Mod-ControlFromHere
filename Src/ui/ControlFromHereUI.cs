@@ -1,4 +1,4 @@
-using KSP.UI.Screens;
+﻿using KSP.UI.Screens;
 using UnityEngine;
 using com.github.lhervier.ksp.controlfromheremod.breaker;
 using com.github.lhervier.ksp.controlfromheremod.ui.styles;
@@ -40,6 +40,10 @@ namespace com.github.lhervier.ksp.controlfromheremod.ui
 
             RegisterSprites();
 
+            // State and actions of the list. Hosted here rather than on the window, so the current row
+            // survives KSP destroying it (Escape) and the player reopening it.
+            ControlFromHereViewModel viewModel = this.gameObject.AddComponent<ControlFromHereViewModel>();
+
             // The popup controller is a component on THIS GameObject: it survives KSP destroying the window
             // (Escape) and persists its own open state, so we no longer track visibility ourselves.
             _popupController = new PopupBuilder<TitleBarController, ContentController, MonoBehaviour>()
@@ -48,7 +52,7 @@ namespace com.github.lhervier.ksp.controlfromheremod.ui
                 .WithTitle(ModLocalization.GetString("windowTitle"))
                 .WithIcon(LoadIcon())
                 .WithTitleBarBuilder(new TitleBarBuilder())
-                .WithContentBuilder(new ContentBuilder())
+                .WithContentBuilder(new ContentBuilder().WithViewModel(viewModel))
                 .WithSize(new Vector2(Palette.WindowWidth, Palette.WindowHeight))
                 .Build();
             // The controller restores its own open state (in its Start, after this method returns), so we

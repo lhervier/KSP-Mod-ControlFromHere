@@ -5,31 +5,41 @@ using com.github.lhervier.ksp.shared;
 namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui
 {
     /// <summary>
-    /// Keeps the "Command modules: X" caption in sync with the active vessel, refreshing on vessel change
-    /// and vessel modification (docking/undocking, part add/remove) — the events that change how many
-    /// command modules the vessel has.
+    /// Keeps the "Command modules: X" caption in sync with the state held by the
+    /// <see cref="ControlFromHereViewModel"/> — the same list the rows are built from, so the count can
+    /// never disagree with what is displayed below it.
     /// </summary>
     public class CountHeaderController : MonoBehaviour
     {
         private TextMeshProUGUI _label;
-
         public CountHeaderController WithLabel(TextMeshProUGUI label)
         {
             _label = label;
             return this;
         }
 
+        private ControlFromHereViewModel _viewModel;
+        public CountHeaderController WithViewModel(ControlFromHereViewModel viewModel)
+        {
+            _viewModel = viewModel;
+            return this;
+        }
+
         public void Start()
         {
-            GameEvents.onVesselChange.Add(OnVesselChange);
-            GameEvents.onVesselWasModified.Add(OnVesselWasModified);
+            if (_viewModel != null)
+            {
+                _viewModel.OnAvailableModulesChanged.Add(Refresh);
+            }
             Refresh();
         }
 
         public void OnDestroy()
         {
-            GameEvents.onVesselChange.Remove(OnVesselChange);
-            GameEvents.onVesselWasModified.Remove(OnVesselWasModified);
+            if (_viewModel != null)
+            {
+                _viewModel.OnAvailableModulesChanged.Remove(Refresh);
+            }
         }
 
         // Catch up on the count that may have changed while the window was hidden.
@@ -38,16 +48,14 @@ namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui
             Refresh();
         }
 
-        private void OnVesselChange(Vessel vessel) => Refresh();
-        private void OnVesselWasModified(Vessel vessel) => Refresh();
-
+        // Instance method (never make it static): EventVoid.Add throws on a handler with a null Target.
         private void Refresh()
         {
-            if (_label == null)
+            if (_label == null || _viewModel == null)
             {
                 return;
             }
-            int count = CommandModulesService.GetCommandModules(FlightGlobals.ActiveVessel).Count;
+            int count = _viewModel.AvailableModules.Count;
             _label.text = ModLocalization.GetString("labelCommandModulesCount", count).ToUpperInvariant();
         }
     }
