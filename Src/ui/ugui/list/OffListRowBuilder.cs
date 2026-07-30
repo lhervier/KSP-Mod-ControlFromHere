@@ -21,7 +21,8 @@ namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui.list
     /// </summary>
     public class OffListRowBuilder : IUGUIBuilder<OffListRowController>
     {
-        private static string PawGlyph => DefaultPalette.PickGlyph("⚙", "☰", "≡", "P");
+        // The gear is not in the game SDF font: prefer the shared sprite, fall back to a text glyph.
+        private static string PawGlyph => SpritesIcons.SpriteOrGlyph("paw", "⚙", "☰", "≡", "P");
 
         // ===========================================
         // Builder parameters

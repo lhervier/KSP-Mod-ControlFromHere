@@ -18,8 +18,9 @@ namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui.list
     /// </summary>
     public class RowBuilder : IUGUIBuilder<RowController>
     {
-        // No gear/crosshair glyph is guaranteed in the game SDF font; pick the first the font can render.
-        private static string PawGlyph => DefaultPalette.PickGlyph("⚙", "☰", "≡", "P");          // ⚙ ☰ ≡
+        // No gear/crosshair glyph is guaranteed in the game SDF font; the gear has a shared sprite,
+        // the others pick the first glyph the font can render.
+        private static string PawGlyph => SpritesIcons.SpriteOrGlyph("paw", "⚙", "☰", "≡", "P");  // ⚙ ☰ ≡
         private static string ControlGlyph => DefaultPalette.PickGlyph("⌖", "◎", "◉", "⊕", "C"); // ⌖ ◎ ◉ ⊕
         private static string CheckGlyph => DefaultPalette.PickGlyph("✓", "√", "»");             // ✓ √
 
