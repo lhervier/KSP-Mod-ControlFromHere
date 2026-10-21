@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui
+namespace com.github.lhervier.ksp.mod.controlfromhere.ui.ugui
 {
     /// <summary>
     /// Marker controller for the window content container: a vertical stack of the always-visible circuit

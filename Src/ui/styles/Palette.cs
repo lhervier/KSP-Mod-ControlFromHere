@@ -1,7 +1,7 @@
 using UnityEngine;
 using static com.github.lhervier.ksp.shared.ugui.styles.Utils;
 
-namespace com.github.lhervier.ksp.controlfromheremod.ui.styles
+namespace com.github.lhervier.ksp.mod.controlfromhere.ui.styles
 {
     /// <summary>
     /// Colors and metrics of the window, matching the mockup (dark theme, green accent #8dbe45). No

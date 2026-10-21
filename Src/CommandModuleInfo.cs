@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace com.github.lhervier.ksp.controlfromheremod
+namespace com.github.lhervier.ksp.mod.controlfromhere
 {
     /// <summary>
     /// One command module of the current vessel, with the display data the window needs: the vessel

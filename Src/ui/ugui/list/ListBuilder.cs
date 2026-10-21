@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using com.github.lhervier.ksp.shared.ugui;
 
-namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui.list
+namespace com.github.lhervier.ksp.mod.controlfromhere.ui.ugui.list
 {
     /// <summary>
     /// Vertical container of the command-module rows. The rows themselves are (re)built by the

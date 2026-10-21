@@ -1,4 +1,4 @@
-# KSP-ControlFromHere
+# KSP-Mod-ControlFromHere
 
 A Kerbal Space Program mod that adds a flight-scene window listing the **command modules** of the active vessel, with one-click access to each module's part action window and to its "Control From Here" action. It also embeds a **thrust circuit breaker** that catches the classic "thrusting the wrong way" mistake (typically after an undock) and helps you take control from the right module.
 
@@ -35,17 +35,17 @@ See [mockup.html](mockup.html) for the reference layout and [SPEC.md](SPEC.md) f
 
 You do not need to build anything: a ready-to-use archive is published with each release.
 
-1. Download `ControlFromHereMod.zip` from the [latest release](https://github.com/lhervier/KSP-ControlFromHere/releases/latest).
+1. Download `KSPModControlFromHere.zip` from the [latest release](https://github.com/lhervier/KSP-Mod-ControlFromHere/releases/latest).
 2. Extract it into your KSP `GameData` folder. You should end up with:
 
    ```
-   <KSP>/GameData/ControlFromHereMod/
+   <KSP>/GameData/KSPModControlFromHere/
    ```
 
-   where `<KSP>` is your Kerbal Space Program installation directory (the folder containing `KSP_x64.exe`). The archive already contains the `ControlFromHereMod` folder, so just unzip it directly into `GameData`.
+   where `<KSP>` is your Kerbal Space Program installation directory (the folder containing `KSP_x64.exe`). The archive already contains the `KSPModControlFromHere` folder, so just unzip it directly into `GameData`.
 3. Start the game. The application-launcher button appears in the flight scene.
 
-To update, delete the existing `GameData/ControlFromHereMod` folder and repeat the steps above. To uninstall, simply remove that folder.
+To update, delete the existing `GameData/KSPModControlFromHere` folder and repeat the steps above. To uninstall, simply remove that folder.
 
 > The sections below ([Building](#building), build-time [Installing](#installing)) are only needed if you want to compile the mod from sources.
 
@@ -53,15 +53,15 @@ To update, delete the existing `GameData/ControlFromHereMod` folder and repeat t
 
 UI strings are translated through KSP's localization system. Provided languages:
 
-- English — [GameData/ControlFromHereMod/Localization/en-us.cfg](GameData/ControlFromHereMod/Localization/en-us.cfg)
-- French — [GameData/ControlFromHereMod/Localization/fr-fr.cfg](GameData/ControlFromHereMod/Localization/fr-fr.cfg)
+- English — [GameData/KSPModControlFromHere/Localization/en-us.cfg](GameData/KSPModControlFromHere/Localization/en-us.cfg)
+- French — [GameData/KSPModControlFromHere/Localization/fr-fr.cfg](GameData/KSPModControlFromHere/Localization/fr-fr.cfg)
 
 Part titles are not translated by the mod: they come already localized from KSP (`part.partInfo.title`), which also covers parts from other mods.
 
 ## Repository layout
 
 - `Src/` — mod sources (`com.github.lhervier.ksp.*`).
-- `GameData/ControlFromHereMod/` — icon, sprite textures (e.g. the breaker's bolt glyph) and localization files shipped with the mod.
+- `GameData/KSPModControlFromHere/` — icon, sprite textures (e.g. the breaker's bolt glyph) and localization files shipped with the mod.
 - `KSP-Shared/` — git **submodule** ([KSP-Shared](https://github.com/lhervier/KSP-Shared.git)) providing the shared uGUI components, styles and sprite helpers. It is compiled directly from sources into the mod, producing a **single DLL**.
 
 ## Building
@@ -69,7 +69,7 @@ Part titles are not translated by the mod: they come already localized from KSP 
 Building requires the KSP DLLs. Clone with submodules, set the `KSPDIR` environment variable to your KSP installation, then run the build script for your OS.
 
 ```bash
-git clone --recurse-submodules https://github.com/lhervier/KSP-ControlFromHere.git
+git clone --recurse-submodules https://github.com/lhervier/KSP-Mod-ControlFromHere.git
 ```
 
 (If you already cloned without `--recurse-submodules`, run `git submodule update --init`.)
@@ -88,7 +88,7 @@ export KSPDIR="$HOME/.steam/steam/steamapps/common/Kerbal Space Program"
 ./build.sh
 ```
 
-The build compiles the mod (together with the `KSP-Shared` sources) and produces `Release/ControlFromHereMod.zip`, packaging the DLL, the icon, the shared textures and the localization files.
+The build compiles the mod (together with the `KSP-Shared` sources) and produces `Release/KSPModControlFromHere.zip`, packaging the DLL, the icon, the shared textures and the localization files.
 
 ## Installing (from a local build)
 
@@ -106,7 +106,7 @@ install.bat
 ./install.sh
 ```
 
-You can also install manually by unzipping `Release/ControlFromHereMod.zip` into `<KSP>/GameData/`.
+You can also install manually by unzipping `Release/KSPModControlFromHere.zip` into `<KSP>/GameData/`.
 
 ## Updating the shared submodule
 

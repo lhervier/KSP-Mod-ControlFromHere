@@ -1,11 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using com.github.lhervier.ksp.controlfromheremod.ui.styles;
+using com.github.lhervier.ksp.mod.controlfromhere.ui.styles;
 using com.github.lhervier.ksp.shared.ugui;
 using com.github.lhervier.ksp.shared.ugui.sprites;
 
-namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui
+namespace com.github.lhervier.ksp.mod.controlfromhere.ui.ugui
 {
     /// <summary>
     /// The fixed "Command modules: X" sub-header shown between the breaker banner and the list: a thin

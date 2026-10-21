@@ -1,13 +1,13 @@
 ﻿using KSP.UI.Screens;
 using UnityEngine;
-using com.github.lhervier.ksp.controlfromheremod.breaker;
-using com.github.lhervier.ksp.controlfromheremod.ui.styles;
-using com.github.lhervier.ksp.controlfromheremod.ui.ugui;
+using com.github.lhervier.ksp.mod.controlfromhere.breaker;
+using com.github.lhervier.ksp.mod.controlfromhere.ui.styles;
+using com.github.lhervier.ksp.mod.controlfromhere.ui.ugui;
 using com.github.lhervier.ksp.shared;
 using com.github.lhervier.ksp.shared.ugui.popup;
 using com.github.lhervier.ksp.shared.ugui.sprites;
 
-namespace com.github.lhervier.ksp.controlfromheremod.ui
+namespace com.github.lhervier.ksp.mod.controlfromhere.ui
 {
     /// <summary>
     /// Entry point in flight: the toolbar button and the uGUI window it toggles. The window is driven by a

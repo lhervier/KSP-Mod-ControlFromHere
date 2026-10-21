@@ -1,12 +1,12 @@
 using UnityEngine;
 using UnityEngine.UI;
-using com.github.lhervier.ksp.controlfromheremod.ui.styles;
+using com.github.lhervier.ksp.mod.controlfromhere.ui.styles;
 using com.github.lhervier.ksp.shared;
 using com.github.lhervier.ksp.shared.ugui.badge;
 using com.github.lhervier.ksp.shared.ugui.sprites;
 using com.github.lhervier.ksp.shared.ugui.styles;
 
-namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui.list
+namespace com.github.lhervier.ksp.mod.controlfromhere.ui.ugui.list
 {
     /// <summary>
     /// Reusable sub-elements shared by the row builders (<see cref="RowBuilder"/> for command modules and

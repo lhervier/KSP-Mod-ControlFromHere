@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using com.github.lhervier.ksp.controlfromheremod.ui.styles;
-using com.github.lhervier.ksp.controlfromheremod.ui.ugui.breaker;
-using com.github.lhervier.ksp.controlfromheremod.ui.ugui.list;
+using com.github.lhervier.ksp.mod.controlfromhere.ui.styles;
+using com.github.lhervier.ksp.mod.controlfromhere.ui.ugui.breaker;
+using com.github.lhervier.ksp.mod.controlfromhere.ui.ugui.list;
 using com.github.lhervier.ksp.shared.ugui;
 using com.github.lhervier.ksp.shared.ugui.scrollableview;
 
-namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui
+namespace com.github.lhervier.ksp.mod.controlfromhere.ui.ugui
 {
     /// <summary>
     /// Popup content (everything below the shared title bar): the always-visible circuit-breaker banner and

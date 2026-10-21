@@ -3,7 +3,7 @@ using UnityEngine;
 using KSP.Localization;
 using com.github.lhervier.ksp.shared;
 
-namespace com.github.lhervier.ksp.controlfromheremod
+namespace com.github.lhervier.ksp.mod.controlfromhere
 {
     /// <summary>
     /// Where the vessel's current control point (reference transform) sits, from the mod's point of view.

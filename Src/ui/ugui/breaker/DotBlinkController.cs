@@ -1,8 +1,8 @@
 using UnityEngine;
 using TMPro;
-using com.github.lhervier.ksp.controlfromheremod.ui;
+using com.github.lhervier.ksp.mod.controlfromhere.ui;
 
-namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui.breaker
+namespace com.github.lhervier.ksp.mod.controlfromhere.ui.ugui.breaker
 {
     /// <summary>
     /// Blinks a TMP label (the breaker's "disarmed" state dot) in lock-step with the toolbar warning icon,

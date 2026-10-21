@@ -1,4 +1,4 @@
-namespace com.github.lhervier.ksp.controlfromheremod
+namespace com.github.lhervier.ksp.mod.controlfromhere
 {
     /// <summary>
     /// The vessel's current control point when it is <em>not</em> one of the listed command modules:

@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 
-namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui
+namespace com.github.lhervier.ksp.mod.controlfromhere.ui.ugui
 {
     /// <summary>
     /// Right-side content of the popup title bar: the active vessel's global name, read as-is from KSP

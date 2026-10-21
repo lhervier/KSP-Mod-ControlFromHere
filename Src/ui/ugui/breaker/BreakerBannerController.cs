@@ -1,15 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using com.github.lhervier.ksp.controlfromheremod.breaker;
-using com.github.lhervier.ksp.controlfromheremod.ui.styles;
+using com.github.lhervier.ksp.mod.controlfromhere.breaker;
+using com.github.lhervier.ksp.mod.controlfromhere.ui.styles;
 using com.github.lhervier.ksp.shared;
 using com.github.lhervier.ksp.shared.ugui;
 using com.github.lhervier.ksp.shared.ugui.button;
 using com.github.lhervier.ksp.shared.ugui.sprites;
 using com.github.lhervier.ksp.shared.ugui.styles;
 
-namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui.breaker
+namespace com.github.lhervier.ksp.mod.controlfromhere.ui.ugui.breaker
 {
     /// <summary>
     /// Fills and refreshes the circuit-breaker banner from <see cref="ThrustBreaker"/>: the master enable

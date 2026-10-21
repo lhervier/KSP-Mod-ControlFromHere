@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using com.github.lhervier.ksp.shared;
 
-namespace com.github.lhervier.ksp.controlfromheremod.breaker
+namespace com.github.lhervier.ksp.mod.controlfromhere.breaker
 {
     /// <summary>
     /// The thrust circuit breaker: while enabled, it watches the active vessel's real thrust and, if the

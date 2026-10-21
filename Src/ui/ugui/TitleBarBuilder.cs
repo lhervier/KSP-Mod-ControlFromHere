@@ -1,9 +1,9 @@
 using UnityEngine;
 using TMPro;
-using com.github.lhervier.ksp.controlfromheremod.ui.styles;
+using com.github.lhervier.ksp.mod.controlfromhere.ui.styles;
 using com.github.lhervier.ksp.shared.ugui;
 
-namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui
+namespace com.github.lhervier.ksp.mod.controlfromhere.ui.ugui
 {
     /// <summary>
     /// Builds the popup title bar's right column: a single label showing the active vessel's name. The

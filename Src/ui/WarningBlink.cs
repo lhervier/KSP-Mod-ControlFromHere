@@ -1,4 +1,4 @@
-namespace com.github.lhervier.ksp.controlfromheremod.ui
+namespace com.github.lhervier.ksp.mod.controlfromhere.ui
 {
     /// <summary>
     /// Shared blink cadence for the "breaker tripped" warning, so the toolbar icon and the in-window state

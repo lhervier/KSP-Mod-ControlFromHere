@@ -1,4 +1,4 @@
-# KSP-ControlFromHere — Spécification
+# KSP-Mod-ControlFromHere — Spécification
 
 Note de référence figeant les décisions prises avec Lionel avant implémentation. Sert aussi de
 point de reprise si l'implémentation est menée dans une autre conversation.
@@ -94,12 +94,12 @@ Nom **global** du vaisseau = `vessel.vesselName`, **lu tel quel** depuis KSP.
 
 ## 6. Dépendances
 
-- **Sous-module partagé `KSP-Shared`** : utiliser le **même commit que KSP-VesselBookmark**, qui
+- **Sous-module partagé `KSP-Shared`** : utiliser le **même commit que KSP-Mod-VesselBookmark**, qui
   contient déjà `VesselTypeIcons` (`Get(VesselType)`, `TryGet(string, out Sprite)`, `Available`) —
   fichier `KSP-Shared/Src/shared/ugui/sprites/VesselTypeIcons.cs`. **Rien à réimplémenter.**
-- Reprendre la structure d'un des trois mods existants (KSP-VesselBookmark, KSP-SteamInputPlugin,
-  KSP-DrawLayerPlugin) : `.csproj`, `Src/`, `GameData/`, scripts de build (`build.bat`/`build.sh`).
-- Icône `icon.png` → ira dans `GameData/<DossierMod>/icon.png` (cf. `VesselBookmarkMod/icon.png`).
+- Reprendre la structure d'un des trois mods existants (KSP-Mod-VesselBookmark, KSP-Mod-SteamInput,
+  KSP-Mod-DrawLayer) : `.csproj`, `Src/`, `GameData/`, scripts de build (`build.bat`/`build.sh`).
+- Icône `icon.png` → ira dans `GameData/<DossierMod>/icon.png` (cf. `KSPModVesselBookmark/icon.png`).
 
 ---
 

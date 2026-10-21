@@ -2,7 +2,7 @@ using UnityEngine;
 using TMPro;
 using com.github.lhervier.ksp.shared;
 
-namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui
+namespace com.github.lhervier.ksp.mod.controlfromhere.ui.ugui
 {
     /// <summary>
     /// Keeps the "Command modules: X" caption in sync with the state held by the

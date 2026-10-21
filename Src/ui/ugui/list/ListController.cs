@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using com.github.lhervier.ksp.controlfromheremod.ui.styles;
+using com.github.lhervier.ksp.mod.controlfromhere.ui.styles;
 using com.github.lhervier.ksp.shared;
 using com.github.lhervier.ksp.shared.ugui;
 
-namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui.list
+namespace com.github.lhervier.ksp.mod.controlfromhere.ui.ugui.list
 {
     /// <summary>
     /// Builds the command-module rows from the state held by the <see cref="ControlFromHereViewModel"/>: it

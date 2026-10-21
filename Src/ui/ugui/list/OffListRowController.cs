@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using com.github.lhervier.ksp.controlfromheremod.ui.styles;
+using com.github.lhervier.ksp.mod.controlfromhere.ui.styles;
 using com.github.lhervier.ksp.shared.ugui;
 using com.github.lhervier.ksp.shared.ugui.button;
 using com.github.lhervier.ksp.shared.ugui.selectionring;
 
-namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui.list
+namespace com.github.lhervier.ksp.mod.controlfromhere.ui.ugui.list
 {
     /// <summary>
     /// Controller of the off-list control-point row (pinned at the top of the list). Its content is static

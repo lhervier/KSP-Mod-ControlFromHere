@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using com.github.lhervier.ksp.controlfromheremod.ui.styles;
+using com.github.lhervier.ksp.mod.controlfromhere.ui.styles;
 using com.github.lhervier.ksp.shared.ugui;
 using com.github.lhervier.ksp.shared.ugui.button;
 using com.github.lhervier.ksp.shared.ugui.selectionring;
 using com.github.lhervier.ksp.shared.ugui.styles;
 
-namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui.list
+namespace com.github.lhervier.ksp.mod.controlfromhere.ui.ugui.list
 {
     /// <summary>
     /// Controller of a command-module row. The row content is static (rebuilt by the

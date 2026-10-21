@@ -1,10 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
-using com.github.lhervier.ksp.controlfromheremod.ui.styles;
+using com.github.lhervier.ksp.mod.controlfromhere.ui.styles;
 using com.github.lhervier.ksp.shared.ugui;
 using com.github.lhervier.ksp.shared.ugui.sprites;
 
-namespace com.github.lhervier.ksp.controlfromheremod.ui.ugui.breaker
+namespace com.github.lhervier.ksp.mod.controlfromhere.ui.ugui.breaker
 {
     /// <summary>
     /// The always-visible circuit-breaker banner mounted at the top of the window. Builds the container

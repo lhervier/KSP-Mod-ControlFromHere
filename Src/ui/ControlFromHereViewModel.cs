@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using com.github.lhervier.ksp.controlfromheremod.breaker;
+using com.github.lhervier.ksp.mod.controlfromhere.breaker;
 using com.github.lhervier.ksp.shared;
 
-namespace com.github.lhervier.ksp.controlfromheremod.ui
+namespace com.github.lhervier.ksp.mod.controlfromhere.ui
 {
     /// <summary>
     /// View model of the window: it owns what the list displays, which row is the current one, and the

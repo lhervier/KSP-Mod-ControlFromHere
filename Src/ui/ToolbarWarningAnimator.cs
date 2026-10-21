@@ -1,10 +1,10 @@
 using System.IO;
 using KSP.UI.Screens;
 using UnityEngine;
-using com.github.lhervier.ksp.controlfromheremod.ui.styles;
+using com.github.lhervier.ksp.mod.controlfromhere.ui.styles;
 using com.github.lhervier.ksp.shared;
 
-namespace com.github.lhervier.ksp.controlfromheremod.ui
+namespace com.github.lhervier.ksp.mod.controlfromhere.ui
 {
     /// <summary>
     /// Blinks the toolbar button red while the thrust circuit breaker is tripped, so the player notices the

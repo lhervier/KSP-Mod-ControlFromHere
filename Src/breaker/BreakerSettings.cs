@@ -1,7 +1,7 @@
 using System.IO;
 using com.github.lhervier.ksp.shared;
 
-namespace com.github.lhervier.ksp.controlfromheremod.breaker
+namespace com.github.lhervier.ksp.mod.controlfromhere.breaker
 {
     /// <summary>
     /// The circuit breaker's global, persisted settings: whether it is enabled and the misalignment
@@ -25,7 +25,7 @@ namespace com.github.lhervier.ksp.controlfromheremod.breaker
         public bool Enabled { get; set; } = true;
         public float Threshold { get; set; } = DefaultThreshold;
 
-        // The .cfg lives beside the compiled DLL, like KSP-DrawLayerPlugin's ConfigManager.
+        // The .cfg lives beside the compiled DLL, like KSP-Mod-DrawLayer's ConfigManager.
         private static string ConfigFilePath
         {
             get
