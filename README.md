@@ -23,13 +23,11 @@ The window is reachable from an application-launcher button (white joystick icon
 
 An always-visible banner at the top of the window watches the thrust while you fly. If you throttle up while the **real thrust** points away from the vessel's **control direction** (`ReferenceTransform.up`) by more than a threshold, the breaker **trips**: it cuts and **locks** the throttle to 0, opens the window if it was hidden, and blinks the toolbar icon — so you notice immediately instead of burning off-axis.
 
-- **Enabled / threshold** are a **global setting, persisted** across scenes and sessions. The threshold (default **5°**) is adjustable live from the banner; a small margin is needed because engine gimbal deflects the instantaneous thrust by a few degrees.
+- **Enabled / threshold** are a **global setting, persisted** across scenes and sessions. The threshold (default **10°**) is adjustable live from the banner; a small margin is needed because engine gimbal deflects the instantaneous thrust by a few degrees.
 - Detection is **reactive**: it reads the thrust actually applied each frame (`ModuleEngines.finalThrust`), so an engine that does not push (unstaged, out of fuel, atmospheric cutoff…) simply does not count — no thrust prediction.
 - While tripped, the list **reorders**: command modules whose control-forward matches the offending thrust get an **Aligned** chip and bubble to the top, so the module to take control from is obvious.
 - The breaker **rearms** on any "Control From Here" (the mod's button *or* the stock PAW entry), on a vessel change, or via the banner's **Rearm without switching** action (for a deliberately off-axis burn).
 - Disarming only ever results from a detected misalignment — there is no manual disarm. To stop being interrupted, just disable the breaker.
-
-See [mockup.html](mockup.html) for the reference layout and [SPEC.md](SPEC.md) for the full specification and the design decisions behind the mod.
 
 ## Installation
 

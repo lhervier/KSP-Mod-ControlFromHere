@@ -150,7 +150,7 @@ namespace com.github.lhervier.ksp.mod.controlfromhere.ui.styles
         public static readonly Color BannerTrippedColor = Rgb(224, 96, 58);     // #e0603a
         public static readonly Color BannerIdleColor = Rgb(90, 90, 90);         // #5a5a5a
 
-        // Threshold stepper (Seuil − 5° +)
+        // Threshold stepper (Seuil − 10° +)
         public const int BannerThresholdFontSize = 10;
         public const int BannerThresholdValueFontSize = 12;
         public const float BannerStepButtonSize = 16f;

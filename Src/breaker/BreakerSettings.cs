@@ -18,7 +18,7 @@ namespace com.github.lhervier.ksp.mod.controlfromhere.breaker
         private const string KEY_THRESHOLD = "threshold";
 
         /// <summary>Default misalignment threshold, in degrees. Leaves margin for gimbal deflection.</summary>
-        public const float DefaultThreshold = 5f;
+        public const float DefaultThreshold = 10f;
         public const float MinThreshold = 1f;
         public const float MaxThreshold = 45f;
 
