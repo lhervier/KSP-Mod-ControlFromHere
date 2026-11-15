@@ -157,7 +157,7 @@ namespace com.github.lhervier.ksp.mod.controlfromhere.ui.ugui.list
                 lastRow.transform.SetParent(transform, false);
                 _rows.Add(lastRow);
             }
-            // No trailing separator under the last row of the list (mirrors the mockup's :last-child rule).
+            // No trailing separator under the last row of the list.
             lastRow.HideSeparator();
 
             // The rows render themselves on Start, which Unity only runs later in the frame: paint them now

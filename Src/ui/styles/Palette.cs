@@ -4,7 +4,7 @@ using static com.github.lhervier.ksp.shared.ugui.styles.Utils;
 namespace com.github.lhervier.ksp.mod.controlfromhere.ui.styles
 {
     /// <summary>
-    /// Colors and metrics of the window, matching the mockup (dark theme, green accent #8dbe45). No
+    /// Colors and metrics of the window (dark theme, green accent #8dbe45). No
     /// color/size is hard-coded in the builders: everything comes from here. Shared values (accent,
     /// label, title bar...) are reused from the shared DefaultPalette/PopupPalette.
     /// </summary>
@@ -38,7 +38,7 @@ namespace com.github.lhervier.ksp.mod.controlfromhere.ui.styles
         public const float RowSpacing = 8f;
         public static readonly Color RowActiveBgColor = Rgba(141, 190, 69, 0.06f);
         // Faint white wash on hover for a plain (non-controlling) module row. The controlling module
-        // keeps its green tint on hover; the off-list row keeps its amber tint — as in the mockup.
+        // keeps its green tint on hover; the off-list row keeps its amber tint.
         public static readonly Color RowHoverColor = Rgba(255, 255, 255, 0.03f);
         // Current row (the one last clicked / acted on). Neutral, and stronger than the hover wash so the
         // two read differently; the green tint stays reserved for the module actually in control.

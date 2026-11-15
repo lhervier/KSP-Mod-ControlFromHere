@@ -57,9 +57,9 @@ namespace com.github.lhervier.ksp.mod.controlfromhere.ui.ugui
             label.fontSize = Palette.CountFontSize;
             label.color = Palette.CountTextColor;
             label.alignment = TextAlignmentOptions.Left;
-            label.characterSpacing = 2f; // approximates the mockup's letter-spacing on the uppercase caption
+            label.characterSpacing = 2f; // letter-spacing on the uppercase caption
 
-            // Bottom separator line (out of layout), like the mockup's border-bottom.
+            // Bottom separator line (out of layout).
             var sepGo = new GameObject("Separator", typeof(RectTransform));
             sepGo.transform.SetParent(go.transform, false);
             var sepLe = sepGo.AddComponent<LayoutElement>();

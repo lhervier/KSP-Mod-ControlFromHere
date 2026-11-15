@@ -11,7 +11,7 @@ namespace com.github.lhervier.ksp.mod.controlfromhere.ui.ugui.breaker
     /// </summary>
     public class DotBlinkController : MonoBehaviour
     {
-        private const float OffAlpha = 0.2f; // matches the mockup's blink keyframe (opacity .2)
+        private const float OffAlpha = 0.2f; // dot opacity during the blink's off phase
 
         private TextMeshProUGUI _label;
         private bool _blinking;

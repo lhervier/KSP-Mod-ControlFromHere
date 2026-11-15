@@ -176,8 +176,8 @@ namespace com.github.lhervier.ksp.mod.controlfromhere.ui.ugui.list
             bool active = _info.IsActive;
             bool selected = _viewModel.IsSelected(_info.Part);
 
-            // Background, by decreasing priority. The controlling module keeps its green tint on hover (as
-            // in the mockup), so the hover wash only ever shows on the other rows.
+            // Background, by decreasing priority. The controlling module keeps its green tint on hover, so
+            // the hover wash only ever shows on the other rows.
             if (_bg != null)
             {
                 if (active) _bg.color = Palette.RowActiveBgColor;

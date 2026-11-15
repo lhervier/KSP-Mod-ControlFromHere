@@ -378,7 +378,7 @@ namespace com.github.lhervier.ksp.mod.controlfromhere.ui.ugui.breaker
             le.flexibleWidth = 1f;
         }
 
-        // Slightly lightened color for the switch hover (mockup: filter brightness(1.2)), alpha kept.
+        // Slightly lightened color for the switch hover, alpha kept.
         private static Color Brighten(Color c)
         {
             return new Color(
