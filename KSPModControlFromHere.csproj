@@ -3,6 +3,8 @@
     <TargetFramework>net472</TargetFramework>
     <AssemblyName>KSPModControlFromHere</AssemblyName>
     <RootNamespace>com.github.lhervier.ksp.mod.controlfromhere</RootNamespace>
+    <Version>0.1.1-dev</Version>
+    <Description>Mod for KSP to control the vessel from a chosen command module</Description>
     <OutputType>Library</OutputType>
     <OutputPath>Output\bin</OutputPath>
     <IntermediateOutputPath>Output\obj</IntermediateOutputPath>
@@ -11,8 +13,6 @@
     <DebugSymbols>true</DebugSymbols>
     <Optimize>false</Optimize>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <Deterministic>false</Deterministic>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies.net472" Version="1.0.3">
